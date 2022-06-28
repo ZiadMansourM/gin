@@ -13,10 +13,10 @@ services:
       - POSTGRES_DB=postgres
   backend:
     build:
-      context: .
+      context: src
       dockerfile: Dockerfile.dev
     volumes:
-      - .:/app
+      - ./src:/app
     ports:
       - "3000:3000"
     restart: always
