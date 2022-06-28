@@ -1,11 +1,14 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/ziadmansourm/gin/config"
+	"github.com/ziadmansourm/gin/routes"
+)
 
 func main() {
 	router := gin.New()
-	router.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello World!")
-	})
+	config.Connect()
+	routes.UserRouter(router)
 	router.Run(":3000")
 }

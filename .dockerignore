@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# Allow ".go, .mod, .sum, .sh" files
+!**/*.go
+!**/*.mod
+!**/*.sum
+# Allow code directories
+!/config
+!/controller
+!/models
+!/routes
