@@ -6,10 +6,13 @@ import (
 )
 
 func UserRouter(router *gin.Engine) {
-	list_Create_PATH := "/user"
+	pathPrefix := "/users"
+
+	list_Create_PATH := pathPrefix + "/"
 	router.GET(list_Create_PATH, controller.ListUsers)
 	router.POST(list_Create_PATH, controller.CreateUser)
-	get_Update_Delete_PATH := "/user/:id"
+
+	get_Update_Delete_PATH := pathPrefix + "/:id"
 	router.GET(get_Update_Delete_PATH, controller.GetUser)
 	router.PUT(get_Update_Delete_PATH, controller.UpdateUser)
 	router.DELETE(get_Update_Delete_PATH, controller.DeleteUser)
