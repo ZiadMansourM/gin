@@ -8,6 +8,9 @@
 # MAC generated files
 .DS_Store
 
+# vscode generated files
+.vscode
+
 # Test binary, built with `go test -c`
 *.test
 
