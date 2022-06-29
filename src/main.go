@@ -16,8 +16,10 @@ func main() {
 		panic(err.Error())
 	}
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
-	engine := gin.Default()
+	engine := gin.New()
+	engine.Use(gin.Logger(), gin.Recovery())
 	config.Connect()
 	routes.UserRouter(engine)
+	routes.BookRouter(engine)
 	engine.Run(":3000")
 }
