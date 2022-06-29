@@ -10,33 +10,91 @@ import (
 
 func ListUsers(c *gin.Context) {
 	users := []models.User{}
-	config.DB.Find(&users)
+	if err := config.DB.Find(&users).Error; err != nil {
+		c.JSON(
+			http.StatusConflict,
+			gin.H{"errors": err.Error()},
+		)
+		return
+	}
 	c.JSON(http.StatusOK, &users)
 }
 
 func GetUser(c *gin.Context) {
 	var user models.User
-	config.DB.First(&user, c.Param("id"))
+	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
+		c.JSON(
+			http.StatusNotFound,
+			gin.H{"errors": err.Error()},
+		)
+		return
+	}
 	c.JSON(http.StatusOK, &user)
 }
 
 func CreateUser(c *gin.Context) {
 	var user models.User
-	c.BindJSON(&user)
-	config.DB.Create(&user)
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{"error": err.Error()},
+		)
+		return
+	}
+	if err := config.DB.Create(&user).Error; err != nil {
+		c.JSON(
+			http.StatusConflict,
+			gin.H{"errors": err.Error()},
+		)
+		return
+	}
 	c.JSON(http.StatusOK, &user)
 }
 
 func UpdateUser(c *gin.Context) {
 	var user models.User
-	config.DB.Where("id = ?", c.Param("id")).First(&user)
-	c.BindJSON(&user)
+	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
+		c.JSON(
+			http.StatusNotFound,
+			gin.H{"errors": err.Error()},
+		)
+		return
+	}
+	type UpdateUser struct {
+		Name     string `json:"name"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	var updatedData UpdateUser
+	if err := c.ShouldBindJSON(&updatedData); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{"error": err.Error()},
+		)
+		return
+	}
+	user.Name = updatedData.Name
+	user.Email = updatedData.Email
+	user.Password = updatedData.Password
 	config.DB.Save(&user)
 	c.JSON(http.StatusOK, &user)
 }
 
 func DeleteUser(c *gin.Context) {
 	var user models.User
-	config.DB.Where("id = ?", c.Param("id")).Delete(&user)
+	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
+		c.JSON(
+			http.StatusNotFound,
+			gin.H{"errors": err.Error()},
+		)
+		return
+	}
+	if err := config.DB.Delete(&user).Error; err != nil {
+		c.JSON(
+			http.StatusConflict,
+			gin.H{"errors": err.Error()},
+		)
+		return
+	}
 	c.JSON(http.StatusOK, &user)
 }

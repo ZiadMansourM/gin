@@ -5,15 +5,13 @@ import (
 	"github.com/ziadmansourm/gin/controller"
 )
 
-func UserRouter(router *gin.Engine) {
-	pathPrefix := "/users"
+func UserRouter(engine *gin.Engine) {
+	router := engine.Group("/users")
 
-	list_Create_PATH := pathPrefix + "/"
-	router.GET(list_Create_PATH, controller.ListUsers)
-	router.POST(list_Create_PATH, controller.CreateUser)
+	router.GET("/", controller.ListUsers)
+	router.POST("/", controller.CreateUser)
 
-	get_Update_Delete_PATH := pathPrefix + "/:id"
-	router.GET(get_Update_Delete_PATH, controller.GetUser)
-	router.PUT(get_Update_Delete_PATH, controller.UpdateUser)
-	router.DELETE(get_Update_Delete_PATH, controller.DeleteUser)
+	router.GET("/:id", controller.GetUser)
+	router.PUT("/:id", controller.UpdateUser)
+	router.DELETE("/:id", controller.DeleteUser)
 }
