@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/ziadmansourm/gin/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -13,9 +12,5 @@ func Connect() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(
-		&models.User{},
-		&models.Book{},
-	)
 	DB = db
 }

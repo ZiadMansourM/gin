@@ -1,15 +1,18 @@
-package controller
+package users
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ziadmansourm/gin/config"
-	"github.com/ziadmansourm/gin/models"
 )
 
-func ListUsers(c *gin.Context) {
-	users := []models.User{}
+func CreateResponseUser(user UserModel) UserSerializer {
+	return UserSerializer{Id: user.Id, Name: user.Name, Email: user.Email}
+}
+
+func List(c *gin.Context) {
+	users := []UserModel{}
 	if err := config.DB.Find(&users).Error; err != nil {
 		c.JSON(
 			http.StatusConflict,
@@ -17,11 +20,16 @@ func ListUsers(c *gin.Context) {
 		)
 		return
 	}
-	c.JSON(http.StatusOK, &users)
+	responseUsers := []UserSerializer{}
+	for _, user := range users {
+		responseUser := CreateResponseUser(user)
+		responseUsers = append(responseUsers, responseUser)
+	}
+	c.JSON(http.StatusOK, &responseUsers)
 }
 
-func GetUser(c *gin.Context) {
-	var user models.User
+func Get(c *gin.Context) {
+	var user UserModel
 	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
 		c.JSON(
 			http.StatusNotFound,
@@ -29,11 +37,12 @@ func GetUser(c *gin.Context) {
 		)
 		return
 	}
-	c.JSON(http.StatusOK, &user)
+	responseUser := CreateResponseUser(user)
+	c.JSON(http.StatusOK, &responseUser)
 }
 
-func CreateUser(c *gin.Context) {
-	var user models.User
+func Create(c *gin.Context) {
+	var user UserModel
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(
 			http.StatusBadRequest,
@@ -48,11 +57,12 @@ func CreateUser(c *gin.Context) {
 		)
 		return
 	}
-	c.JSON(http.StatusOK, &user)
+	responseUser := CreateResponseUser(user)
+	c.JSON(http.StatusOK, &responseUser)
 }
 
-func UpdateUser(c *gin.Context) {
-	var user models.User
+func Update(c *gin.Context) {
+	var user UserModel
 	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
 		c.JSON(
 			http.StatusNotFound,
@@ -77,11 +87,12 @@ func UpdateUser(c *gin.Context) {
 	user.Email = updatedData.Email
 	user.Password = updatedData.Password
 	config.DB.Save(&user)
-	c.JSON(http.StatusOK, &user)
+	responseUser := CreateResponseUser(user)
+	c.JSON(http.StatusOK, &responseUser)
 }
 
-func DeleteUser(c *gin.Context) {
-	var user models.User
+func Delete(c *gin.Context) {
+	var user UserModel
 	if err := config.DB.First(&user, c.Param("id")).Error; err != nil {
 		c.JSON(
 			http.StatusNotFound,
@@ -96,5 +107,6 @@ func DeleteUser(c *gin.Context) {
 		)
 		return
 	}
-	c.JSON(http.StatusOK, &user)
+	responseUser := CreateResponseUser(user)
+	c.JSON(http.StatusOK, &responseUser)
 }

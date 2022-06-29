@@ -1,38 +1,32 @@
-package controller
+package books
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ziadmansourm/gin/config"
-	"github.com/ziadmansourm/gin/models"
+	"github.com/ziadmansourm/gin/users"
 )
 
-type Book struct {
-	Id     uint64      `json:"id"`
-	Title  string      `json:"title"`
-	Author models.User `json:"author" gorm:"foreignkey:PersonID"`
+func CreateResponseBook(book BookModel, user users.UserSerializer) BookSerializer {
+	return BookSerializer{Id: book.Id, Title: book.Title, Author: user}
 }
 
-func CreateResponseBook(book models.Book, user models.User) Book {
-	return Book{Id: book.Id, Title: book.Title, Author: user}
-}
-
-func ListBooks(c *gin.Context) {
-	books := []models.Book{}
+func List(c *gin.Context) {
+	books := []BookModel{}
 	config.DB.Find(&books)
-	responseBooks := []Book{}
+	responseBooks := []BookSerializer{}
 	for _, book := range books {
-		var user models.User
+		var user users.UserModel
 		config.DB.First(&user, book.PersonID)
-		responseBook := CreateResponseBook(book, user)
+		responseBook := CreateResponseBook(book, users.CreateResponseUser(user))
 		responseBooks = append(responseBooks, responseBook)
 	}
 	c.JSON(http.StatusOK, &responseBooks)
 }
 
-func GetBook(c *gin.Context) {
-	var book models.Book
+func Get(c *gin.Context) {
+	var book BookModel
 	if err := config.DB.First(&book, c.Param("id")).Error; err != nil {
 		c.JSON(
 			http.StatusNotFound,
@@ -40,14 +34,14 @@ func GetBook(c *gin.Context) {
 		)
 		return
 	}
-	var user models.User
+	var user users.UserModel
 	config.DB.First(&user, book.PersonID)
-	responseBook := CreateResponseBook(book, user)
+	responseBook := CreateResponseBook(book, users.CreateResponseUser(user))
 	c.JSON(http.StatusOK, &responseBook)
 }
 
-func CreateBook(c *gin.Context) {
-	var book models.Book
+func Create(c *gin.Context) {
+	var book BookModel
 	if err := c.ShouldBindJSON(&book); err != nil {
 		c.JSON(
 			http.StatusBadRequest,
@@ -56,7 +50,7 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
-	var user models.User
+	var user users.UserModel
 	if err := config.DB.First(&user, book.PersonID).Error; err != nil {
 		c.JSON(
 			http.StatusNotFound,
@@ -66,12 +60,12 @@ func CreateBook(c *gin.Context) {
 	}
 	config.DB.Create(&book)
 
-	responseBook := CreateResponseBook(book, user)
+	responseBook := CreateResponseBook(book, users.CreateResponseUser(user))
 	c.JSON(http.StatusOK, &responseBook)
 }
 
-func UpdateBook(c *gin.Context) {
-	var book models.Book
+func Update(c *gin.Context) {
+	var book BookModel
 	if err := config.DB.First(&book, c.Param("id")).Error; err != nil {
 		c.JSON(
 			http.StatusNotFound,
@@ -95,8 +89,8 @@ func UpdateBook(c *gin.Context) {
 	c.JSON(http.StatusOK, &book)
 }
 
-func DeleteBook(c *gin.Context) {
-	var book models.Book
+func Delete(c *gin.Context) {
+	var book BookModel
 	config.DB.Where("id = ?", c.Param("id")).Delete(&book)
 	c.JSON(http.StatusOK, &book)
 }

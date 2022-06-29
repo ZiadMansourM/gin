@@ -1,10 +1,8 @@
-package models
+package users
 
-import (
-	"time"
-)
+import "time"
 
-type User struct {
+type UserModel struct {
 	Id        uint64    `json:"id" gorm:"primaryKey;autoIncrement;not null"`
 	Name      string    `json:"name" gorm:"not null"`
 	Email     string    `json:"email" gorm:"unique;not null"`
@@ -12,4 +10,12 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	// DeletedAt DeletedAt `gorm:"index"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+func (UserModel) TableName() string {
+	return "users"
 }
