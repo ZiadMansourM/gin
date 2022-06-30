@@ -1,4 +1,5 @@
 # 🫡 Welcome to examples-gin Using Go 🦦
+Our goal is to treat our application as a collection of reusable apps, so you can easily copy any app folder and reuse it in your future projects/applications!
 
 # First Approach:
 ```Go
