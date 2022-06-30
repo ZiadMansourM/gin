@@ -1,6 +1,47 @@
 # 🫡 Welcome to examples-gin Using Go 🦦
 Our goal is to treat our application as a collection of reusable apps, so you can easily copy any app folder and reuse it in your future projects/applications!
 
+🛠 Setting work environment 
+---------------------------
+```
+Please Follow the next instructions **EXACTLY**
+
+Feel free to contact me if any problem arise
+```
+---------------------------------------------------------------
+#### 1. Make sure docker is installed:
+
+```console
+* To get the version Excute "in your terminal":
+ziadh@Ziads-MacBook-Air gin % docker --version
+Docker version 20.10.16, build aa7e414
+```
+  > if not installed download the [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+#### 2. Make Sure Go is installed:
+```console
+* To get the version Excute:
+ziadh@Ziads-MacBook-Air gin % go version
+go version go1.18.2 darwin/arm64
+```
+> if not installed read the following [link](https://go.dev/dl/)
+
+#### 3. excute the following commands in your terminal after changing your directory to the diserd path
+
+```console
+$ mkdir gin && cd gin
+$ git clone git@github.com:ZiadMansourM/gin.git .
+$ cd src
+$ go mod download
+$ make up
+```
+> if you aren't comfortable using terminal please watch the following short [playList](https://youtube.com/playlist?list=PLDoPjvoNmBAxzNO8ixW83Sf8FnLy_MkUT) **IMPORTANT**
+
+#### 4. EAch time you make a change in your terminal run
+```console
+$ make reload
+```
+
 # First Approach:
 ```Go
 package main
