@@ -39,7 +39,7 @@ $ make up
 ```
 > if you aren't comfortable using terminal please watch the following short [playList](https://youtube.com/playlist?list=PLDoPjvoNmBAxzNO8ixW83Sf8FnLy_MkUT) **IMPORTANT**
 
-#### 4. EAch time you make a change in your terminal run
+#### 4. Each time you make a change in your terminal run
 ```console
 $ make reload
 ```
@@ -148,7 +148,7 @@ db-shell:
 ```
 
 ### Dockerfile.dev
-```Dockerfile.dev
+```Dockerfile
 FROM golang:1.18.2-alpine3.16 AS builder
 
 WORKDIR /app
