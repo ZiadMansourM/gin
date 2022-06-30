@@ -19,31 +19,39 @@ func main() {
 # Second Approach "Plug and Play":
 
 ```
-ziadh@Ziads-MacBook-Air src % tree
+ziadh@Ziads-MacBook-Air gin % tree -I data        
 .
-├── Dockerfile.dev
-├── Dockerfile.production
-├── books
-│   ├── controller.go
-│   ├── models.go
-│   ├── router.go
-│   └── serializer.go
-├── config
-│   ├── db.go
-│   └── settings.go
-├── go.mod
-├── go.sum
-├── logs
-│   └── log.log
-├── main.go
-├── middlewares
-│   ├── auth.go
-│   └── logger.go
-└── users
-    ├── controller.go
-    ├── models.go
-    ├── router.go
-    └── serializer.go
+├── READme.md
+├── docker-compose-dev.yml
+├── docker-compose-production.yml
+├── makefile
+├── src
+│   ├── Dockerfile.dev
+│   ├── Dockerfile.production
+│   ├── books
+│   │   ├── controller.go
+│   │   ├── models.go
+│   │   ├── router.go
+│   │   └── serializer.go
+│   ├── config
+│   │   ├── db.go
+│   │   └── settings.go
+│   ├── go.mod
+│   ├── go.sum
+│   ├── logs
+│   │   └── log.log
+│   ├── main.go
+│   ├── middlewares
+│   │   ├── auth.go
+│   │   └── logger.go
+│   └── users
+│       ├── controller.go
+│       ├── models.go
+│       ├── router.go
+│       └── serializer.go
+└── wait-for
+
+6 directories, 23 files
 ```
 
 ### Vision: Reusability matters
