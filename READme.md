@@ -3,6 +3,8 @@ Our goal is to treat our application as a collection of reusable apps, so you ca
 
 🛠 Setting work environment 
 ---------------------------
+[![Go 1.18.2](https://img.shields.io/badge/Go-v1.18.2-<COLOR>.svg)](https://www.udemy.com/course/go-the-complete-developers-guide/)
+[![docker](https://img.shields.io/badge/docker-v20.10.16-1EAEDB.svg)](https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/)
 ```
 Please Follow the next instructions **EXACTLY**
 
