@@ -4,8 +4,6 @@ services:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -13,8 +11,8 @@ services:
       - POSTGRES_DB=postgres
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: src
+      dockerfile: Dockerfile.production
     ports:
       - "3000:3000"
     restart: always
